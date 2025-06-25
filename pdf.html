@@ -754,7 +754,7 @@
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         // --- Library Configuration ---
-        const { PDFDocument, rgb, degrees } = PDFLib;
+        const { PDFDocument, rgb, degrees, PDFName, PDFDict, PDFStream } = PDFLib;
         pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js`;
         
         // --- Global State ---
@@ -778,7 +778,7 @@
                     const mergedPdf = await PDFDocument.create();
                     for (const file of selectedFiles) {
                         const pdfBytes = await file.arrayBuffer();
-                        const pdfDoc = await PDFDocument.load(pdfBytes);
+                        const pdfDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
                         const copiedPages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
                         copiedPages.forEach(page => mergedPdf.addPage(page));
                     }
@@ -804,7 +804,7 @@
                     if (!range) throw new Error('Page range is required.');
 
                     const pdfBytes = await selectedFiles[0].arrayBuffer();
-                    const pdfDoc = await PDFDocument.load(pdfBytes);
+                    const pdfDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
                     
                     const pageIndices = [];
                     const totalPages = pdfDoc.getPageCount();
@@ -910,37 +910,41 @@
                 `,
                 process: async () => {
                     showLoader('Applying edits...');
-                    if(fabricCanvas) fabricStates[currentPageNum] = fabricCanvas.toJSON();
-
+                    if (fabricCanvas) fabricStates[currentPageNum] = fabricCanvas.toJSON();
+            
                     const pdfBytes = await selectedFiles[0].arrayBuffer();
-                    const pdfDoc = await PDFDocument.load(pdfBytes);
-
-                    for (const pageNumStr in fabricStates) {
+                    const pdfDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
+            
+                    const editPromises = Object.entries(fabricStates).map(async ([pageNumStr, state]) => {
+                        if (!state || !state.objects || state.objects.length === 0) return;
+                        
                         const pageNum = parseInt(pageNumStr);
-                        showLoader(`Applying edits to page ${pageNum}...`);
                         const page = pdfDoc.getPages()[pageNum - 1];
-                        
-                        const tempCanvas = document.createElement('canvas');
-                        const tempFabric = new fabric.Canvas(tempCanvas);
-                        tempFabric.setDimensions({ width: page.getWidth(), height: page.getHeight() });
-                        
-                        tempFabric.loadFromJSON(fabricStates[pageNum], async () => {
-                            const pngDataUrl = tempFabric.toDataURL({ format: 'png' });
-                            const pngBytes = await fetch(pngDataUrl).then(res => res.arrayBuffer());
-                            const pngImage = await pdfDoc.embedPng(pngBytes);
-                            
-                            page.drawImage(pngImage, {
-                                x: 0,
-                                y: 0,
-                                width: page.getWidth(),
-                                height: page.getHeight(),
+            
+                        const tempCanvasEl = document.createElement('canvas');
+                        const tempFabricCanvas = new fabric.Canvas(tempCanvasEl);
+                        tempFabricCanvas.setDimensions({ width: page.getWidth(), height: page.getHeight() });
+            
+                        return new Promise((resolve) => {
+                            tempFabricCanvas.loadFromJSON(state, async () => {
+                                const pngDataUrl = tempFabricCanvas.toDataURL({ format: 'png' });
+                                const pngBytes = await fetch(pngDataUrl).then(res => res.arrayBuffer());
+                                const pngImage = await pdfDoc.embedPng(pngBytes);
+                                
+                                page.drawImage(pngImage, {
+                                    x: 0,
+                                    y: 0,
+                                    width: page.getWidth(),
+                                    height: page.getHeight(),
+                                });
+                                tempFabricCanvas.dispose();
+                                resolve();
                             });
                         });
-                    }
-                    
-                    // A timeout to allow canvas rendering before saving
-                    await new Promise(resolve => setTimeout(resolve, 1000 * Object.keys(fabricStates).length));
-
+                    });
+            
+                    await Promise.all(editPromises);
+            
                     const editedPdfBytes = await pdfDoc.save();
                     createDownloadLink(editedPdfBytes, 'edited.pdf', 'application/pdf');
                 }
@@ -964,7 +968,7 @@
                         const signatureBytes = await fetch(signatureUrl).then(res => res.arrayBuffer());
 
                         const pdfBytes = await selectedFiles[0].arrayBuffer();
-                        const pdfDoc = await PDFDocument.load(pdfBytes);
+                        const pdfDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
                         const signatureImage = await pdfDoc.embedPng(signatureBytes);
 
                         const firstPage = pdfDoc.getPages()[0];
@@ -1004,7 +1008,7 @@
                     const opacity = parseFloat(options['opacity-slider']);
 
                     const pdfBytes = await selectedFiles[0].arrayBuffer();
-                    const pdfDoc = await PDFDocument.load(pdfBytes);
+                    const pdfDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
                     const pages = pdfDoc.getPages();
                     
                     for (const page of pages) {
@@ -1043,7 +1047,7 @@
                     showLoader('Rotating PDF...');
                     const angle = parseInt(options['rotation-angle']);
                     const pdfBytes = await selectedFiles[0].arrayBuffer();
-                    const pdfDoc = await PDFDocument.load(pdfBytes);
+                    const pdfDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
                     
                     pdfDoc.getPages().forEach(page => {
                         const currentRotation = page.getRotation().angle;
@@ -1264,7 +1268,7 @@
                     const password = options['pdf-password'];
                     if (!password) throw new Error("Password is required.");
                     const pdfBytes = await selectedFiles[0].arrayBuffer();
-                    const pdfDoc = await PDFDocument.load(pdfBytes, { ownerPassword: password });
+                    const pdfDoc = await PDFDocument.load(pdfBytes, { password: password });
                     const unlockedBytes = await pdfDoc.save();
                     createDownloadLink(unlockedBytes, 'unlocked.pdf', 'application/pdf');
                 }
@@ -1286,9 +1290,8 @@
                     const password = options['pdf-password'];
                     if (!password) throw new Error("Password is required.");
                     const pdfBytes = await selectedFiles[0].arrayBuffer();
-                    const pdfDoc = await PDFDocument.load(pdfBytes);
-                    await pdfDoc.save({ userPassword: password });
-                    const protectedBytes = await pdfDoc.save();
+                    const pdfDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
+                    const protectedBytes = await pdfDoc.save({ userPassword: password, ownerPassword: password });
                     createDownloadLink(protectedBytes, 'protected.pdf', 'application/pdf');
                 }
             },
@@ -1311,7 +1314,7 @@
                     if (!orderStr) throw new Error("Page order is required.");
                     
                     const pdfBytes = await selectedFiles[0].arrayBuffer();
-                    const pdfDoc = await PDFDocument.load(pdfBytes);
+                    const pdfDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
                     const totalPages = pdfDoc.getPageCount();
 
                     const newOrderIndices = orderStr.split(',')
@@ -1337,7 +1340,7 @@
                 process: async () => {
                     showLoader('Adding page numbers...');
                     const pdfBytes = await selectedFiles[0].arrayBuffer();
-                    const pdfDoc = await PDFDocument.load(pdfBytes);
+                    const pdfDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
                     const pages = pdfDoc.getPages();
                     for (let i = 0; i < pages.length; i++) {
                         const page = pages[i];
@@ -1363,32 +1366,48 @@
                 process: async () => {
                     showLoader('Extracting images...');
                     const pdfBytes = await selectedFiles[0].arrayBuffer();
-                    const pdfDoc = await PDFDocument.load(pdfBytes);
+                    const pdfDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
                     const zip = new JSZip();
                     let imageCount = 0;
-            
-                    const pages = pdfDoc.getPages();
-                    for (let i = 0; i < pages.length; i++) {
-                        const page = pages[i];
-                        const imageNames = page.node.Resources().get(PDFLib.PDFName.of('XObject'));
-                        if (imageNames) {
-                             const imageMap = imageNames.asMap();
-                             for(const [name, ref] of imageMap.entries()){
+
+                    const objectCache = new Set();
+                    for (const page of pdfDoc.getPages()) {
+                        const resources = page.node.Resources();
+                        if (!resources) continue;
+                        
+                        const xobjects = resources.get(PDFName.of('XObject'));
+                        if (!xobjects || !(xobjects instanceof PDFDict)) continue;
+
+                        for (const [name, ref] of xobjects.entries()) {
+                            if (objectCache.has(ref.tag)) continue;
+                            objectCache.add(ref.tag);
+
+                            const stream = pdfDoc.context.lookup(ref, PDFStream);
+                            if (stream && stream.dict.get(PDFName.of('Subtype')) === PDFName.of('Image')) {
                                 try {
-                                    const image = await pdfDoc.embedJpg(ref);
-                                    zip.file(`image_${imageCount++}.jpg`, await image.embed());
-                                } catch(e1) {
-                                    try {
-                                        const image = await pdfDoc.embedPng(ref);
-                                        zip.file(`image_${imageCount++}.png`, await image.embed());
-                                    } catch(e2) {
-                                        console.warn(`Could not extract image ${name.decodeText()}: ${e2.message}`);
+                                    const imageBytes = stream.getContents();
+                                    if (imageBytes.length === 0) continue;
+                                    
+                                    let extension = 'bin'; 
+                                    const filter = stream.dict.get(PDFName.of('Filter'));
+                                    
+                                    if (filter === PDFName.of('DCTDecode')) {
+                                        extension = 'jpg';
+                                    } else if (filter === PDFName.of('JPXDecode')) {
+                                        extension = 'jp2';
+                                    } else if (filter === PDFName.of('FlateDecode')) {
+                                        // This is a guess, as Flate is used for PNGs but also other data.
+                                        extension = 'png';
                                     }
+                                    
+                                    zip.file(`image_${imageCount++}.${extension}`, imageBytes);
+                                } catch (e) {
+                                    console.warn(`Could not extract an image object: ${e.message}`);
                                 }
-                             }
+                            }
                         }
                     }
-                    
+            
                     if (imageCount === 0) throw new Error("No extractable images found in this PDF.");
             
                     const zipBlob = await zip.generateAsync({ type: "blob" });
@@ -1590,7 +1609,10 @@
 
             // Validate file type
             if (tool.fileType) {
-                const validFiles = newFiles.filter(file => file.type.match(tool.fileType.replace('*', '.*')) || file.name.endsWith(tool.fileType));
+                const validFiles = newFiles.filter(file => {
+                    const fileTypeRegex = new RegExp(tool.fileType.replace('.', '\\.').replace('*', '.*'));
+                    return file.type.match(fileTypeRegex) || file.name.endsWith(tool.fileType)
+                });
                 if (validFiles.length !== newFiles.length) {
                     showError(`Please select only ${tool.fileType} files.`);
                     return;
@@ -1604,10 +1626,12 @@
             }
 
             updateFileList();
-            document.getElementById('process-btn').disabled = false;
-
+            
             if (tool.onFileSelect) {
                 tool.onFileSelect();
+            } else {
+                // For tools without a preview, enable the process button right away.
+                document.getElementById('process-btn').disabled = false;
             }
         }
         
@@ -1626,9 +1650,27 @@
                     const index = parseInt(e.target.dataset.index);
                     selectedFiles.splice(index, 1);
                     updateFileList();
-                    if(selectedFiles.length === 0) document.getElementById('process-btn').disabled = true;
+                    if(selectedFiles.length === 0) {
+                        document.getElementById('process-btn').disabled = true;
+                        // Also clear editor if it was active
+                        if (currentToolId === 'edit-pdf') {
+                            resetModal();
+                            openModal('edit-pdf');
+                        }
+                    }
                 });
             });
+
+            // Enable process button only if there are files
+            const processBtn = document.getElementById('process-btn');
+            if (selectedFiles.length > 0) {
+                // For Edit PDF, the process button is handled by the editor flow
+                if (currentToolId !== 'edit-pdf' || (currentToolId === 'edit-pdf' && currentPdfDoc)) {
+                   processBtn.disabled = false;
+                }
+            } else {
+                processBtn.disabled = true;
+            }
         }
 
         function showLoader(text = 'Processing...') {
@@ -1653,14 +1695,15 @@
 
         // --- Editor-specific functions ---
         async function renderAndInitEditor() {
+            document.getElementById('process-btn').disabled = false; // Enable process button once editor is ready
             const page = await currentPdfDoc.getPage(currentPageNum);
             const viewport = page.getViewport({ scale: 1.5 });
             
-            const canvasWrapper = document.getElementById('editor-canvas-wrapper');
-            if(!canvasWrapper) return;
+            const canvasEl = document.getElementById('editor-canvas-wrapper');
+            if(!canvasEl) return;
             
-            canvasWrapper.width = viewport.width;
-            canvasWrapper.height = viewport.height;
+            canvasEl.width = viewport.width;
+            canvasEl.height = viewport.height;
             
             const backgroundCanvas = document.createElement('canvas');
             backgroundCanvas.width = viewport.width;
@@ -1673,7 +1716,10 @@
                 fabricCanvas.dispose();
             }
 
-            fabricCanvas = new fabric.Canvas('editor-canvas-wrapper');
+            fabricCanvas = new fabric.Canvas('editor-canvas-wrapper', {
+                width: viewport.width,
+                height: viewport.height
+            });
             fabricCanvas.setBackgroundImage(new fabric.Image(backgroundCanvas), fabricCanvas.renderAll.bind(fabricCanvas));
             
             if (fabricStates[currentPageNum]) {
@@ -1697,8 +1743,8 @@
                 fabricCanvas.on('mouse:down', (options) => {
                     if (!options.target) {
                         const text = new fabric.IText('Your Text Here', {
-                            left: options.e.layerX,
-                            top: options.e.layerY,
+                            left: options.e.offsetX,
+                            top: options.e.offsetY,
                             fill: document.getElementById('edit-color').value,
                             fontSize: 20
                         });
@@ -1710,8 +1756,8 @@
                  fabricCanvas.on('mouse:down', (options) => {
                     if (!options.target) {
                         const rect = new fabric.Rect({
-                            left: options.e.layerX,
-                            top: options.e.layerY,
+                            left: options.e.offsetX,
+                            top: options.e.offsetY,
                             fill: 'transparent',
                             stroke: document.getElementById('edit-color').value,
                             strokeWidth: 3,
