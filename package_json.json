@@ -1,0 +1,27 @@
+{
+  "name": "easepdf-toolkit",
+  "version": "1.0.0",
+  "description": "A complete suite of free, secure, and easy-to-use online PDF tools",
+  "main": "index.html",
+  "scripts": {
+    "dev": "node server.js",
+    "build": "echo 'No build step required for static site'",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "pdf",
+    "tools",
+    "converter",
+    "merge",
+    "split",
+    "compress"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}
