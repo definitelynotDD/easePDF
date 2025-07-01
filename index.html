@@ -7,7 +7,6 @@
     <meta name="description" content="A complete suite of free, secure, and easy-to-use online PDF tools. Merge, split, compress, convert, edit, sign, and manage your PDF files directly in your browser without uploading them to any server.">
     <meta name="keywords" content="pdf tools, merge pdf, split pdf, compress pdf, pdf to word, pdf to jpg, edit pdf, sign pdf, free pdf editor, online pdf tools, client-side pdf">
 
-    <!-- External Libraries -->
     <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
     <script src="https://unpkg.com/downloadjs@1.4.7"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
@@ -49,12 +48,10 @@
 
         <section id="tools-section" class="container">
             <div class="tools-grid" id="tools-grid">
-                <!-- Tool cards are generated here by JavaScript -->
-            </div>
+                </div>
         </section>
     </main>
 
-    <!-- The Modal -->
     <div id="tool-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -75,7 +72,6 @@
         </div>
     </div>
     
-    <!-- Loader Overlay -->
     <div id="loader-overlay">
         <div class="spinner"></div>
         <p id="loader-text">Processing...</p>
@@ -191,9 +187,13 @@
         });
 
         function openModal(toolId) {
+            // Corrected: Reset the modal to a clean state first
+            resetModal();
+
+            // Corrected: Then, set the new tool's context
             currentToolId = toolId;
             const tool = toolImplementations[toolId];
-            resetModal();
+            
             document.getElementById('modal-title').textContent = tool.title;
             
             // Set file input accept attribute properly
@@ -247,7 +247,8 @@
             fileInput.value = ''; 
             fileInput.accept = ""; 
             fileInput.multiple = false;
-            currentToolId = null;
+            // Corrected: The line that caused the bug has been removed.
+            // currentToolId = null;
             if (fabricCanvas) { 
                 fabricCanvas.dispose(); 
                 fabricCanvas = null; 
@@ -276,7 +277,7 @@
                 });
                 
                 if (validFiles.length !== newFiles.length) { 
-                    showError(`Please select only ${tool.fileType} files`); 
+                    showError(`Please select only ${tool.fileType.split('/')[1].toUpperCase()} files`); 
                     return; 
                 }
                 
