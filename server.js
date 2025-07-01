@@ -1,60 +1,22 @@
-const fileInput = document.getElementById('file-input');
-const dropZone = document.getElementById('drop-zone');
-const mergeBtn = document.getElementById('merge-btn');
-const statusText = document.getElementById('status');
+// server.js
 
-let selectedFiles = [];
+const express = require('express');
+const path = require('path');
 
-document.getElementById('select-btn').onclick = () => fileInput.click();
+const app = express();
+const PORT = 3000;
 
-fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+// This line is the key. It tells Express to serve all static files 
+// (like index.html) from the same directory where server.js is located.
+app.use(express.static(__dirname));
 
-dropZone.addEventListener('dragover', e => {
-  e.preventDefault();
-  dropZone.style.borderColor = '#e5322d';
-});
-dropZone.addEventListener('dragleave', () => {
-  dropZone.style.borderColor = '#ccc';
-});
-dropZone.addEventListener('drop', (e) => {
-  e.preventDefault();
-  dropZone.style.borderColor = '#ccc';
-  handleFiles(e.dataTransfer.files);
+app.get('/', (req, res) => {
+  // This ensures that visiting http://localhost:3000 serves your index.html
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-function handleFiles(files) {
-  selectedFiles = [...files].filter(f => f.type === 'application/pdf');
-  if (selectedFiles.length > 1) {
-    mergeBtn.disabled = false;
-    mergeBtn.classList.add('enabled');
-    statusText.textContent = `${selectedFiles.length} PDFs selected.`;
-  } else {
-    mergeBtn.disabled = true;
-    mergeBtn.classList.remove('enabled');
-    statusText.textContent = `Please select at least 2 PDFs.`;
-  }
-}
-
-mergeBtn.addEventListener('click', async () => {
-  if (selectedFiles.length < 2) return;
-
-  statusText.textContent = 'Merging PDFs...';
-
-  try {
-    const mergedPdf = await PDFLib.PDFDocument.create();
-
-    for (let file of selectedFiles) {
-      const arrayBuffer = await file.arrayBuffer();
-      const pdf = await PDFLib.PDFDocument.load(arrayBuffer);
-      const pages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
-      pages.forEach(p => mergedPdf.addPage(p));
-    }
-
-    const mergedBytes = await mergedPdf.save();
-    download(mergedBytes, 'merged.pdf', 'application/pdf');
-    statusText.textContent = 'PDF merged successfully!';
-  } catch (err) {
-    console.error(err);
-    statusText.textContent = 'Failed to merge PDFs.';
-  }
+app.listen(PORT, () => {
+  console.log(`✅ Server is running!`);
+  console.log(`Navigate to http://localhost:${PORT} in your browser.`);
+  console.log(`(Press Ctrl+C to stop the server)`);
 });
