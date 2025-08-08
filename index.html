@@ -18,7 +18,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
     <style>
-        :root{--primary-red:#e5322d;--primary-red-dark:#c4241f;--secondary-dark:#333;--text-color:#555;--background-light:#f8f8fa;--background-white:#ffffff;--border-color:#e0e0e0;--container-width:1200px;--header-height:70px}*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--text-color);background-color:var(--background-light);line-height:1.6}.container{max-width:var(--container-width);margin:0 auto;padding:0 20px}.header{position:sticky;top:0;left:0;width:100%;background-color:var(--background-white);z-index:1000;transition:box-shadow .3s ease}.header.scrolled{box-shadow:0 2px 10px rgba(0,0,0,.1)}.navbar{display:flex;justify-content:space-between;align-items:center;height:var(--header-height)}.logo{font-size:1.8rem;font-weight:700;color:var(--primary-red);text-decoration:none}.nav-links{display:flex;list-style:none}.nav-links li{margin-left:30px}.nav-links a{text-decoration:none;color:var(--secondary-dark);font-weight:500;transition:color .3s ease}.nav-links a:hover{color:var(--primary-red)}.hamburger{display:none;cursor:pointer;z-index:1001}.hamburger .bar{display:block;width:25px;height:3px;margin:5px auto;background-color:var(--secondary-dark);transition:all .3s ease-in-out}.hero{text-align:center;padding:100px 20px;background:linear-gradient(180deg,var(--background-white) 0%,var(--background-light) 100%)}.hero h1{font-size:3.5rem;color:var(--secondary-dark);margin-bottom:20px}.hero p{font-size:1.2rem;max-width:600px;margin:0 auto}#tools-section{padding:60px 0}.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:25px}.tool-card{background:var(--background-white);border:1px solid var(--border-color);border-radius:8px;padding:25px;text-align:center;cursor:pointer;transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease;position:relative}.tool-card:hover{transform:translateY(-5px);box-shadow:0 10px 20px rgba(0,0,0,.08);border-color:var(--primary-red)}.tool-card .icon{font-size:3rem;color:var(--primary-red);margin-bottom:15px}.tool-card h3{font-size:1.2rem;color:var(--secondary-dark);margin-bottom:10px}.tool-card p{font-size:.9rem}.new-badge{position:absolute;top:10px;right:10px;background-color:var(--primary-red);color:#fff;padding:2px 8px;border-radius:10px;font-size:.7rem;font-weight:700}.modal{display:none;position:fixed;z-index:2000;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:rgba(0,0,0,.6);animation:fadeIn .3s ease}.modal-content{background-color:#fefefe;margin:5% auto;border-radius:8px;width:90%;max-width:800px;box-shadow:0 5px 15px rgba(0,0,0,.3);display:flex;flex-direction:column}.modal-header{padding:20px 25px;border-bottom:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center}.modal-header h2{color:var(--secondary-dark)}.close-button{color:#aaa;font-size:28px;font-weight:700;cursor:pointer}.close-button:hover,.close-button:focus{color:#000}.modal-body{padding:25px;max-height:60vh;overflow-y:auto}#drop-zone{border:2px dashed var(--border-color);border-radius:8px;padding:40px;text-align:center;cursor:pointer;transition:background-color .3s ease,border-color .3s ease;background-color:var(--background-light)}#drop-zone.dragover{background-color:#e9f5ff;border-color:var(--primary-red)}#drop-zone p{font-size:1.1rem;margin-bottom:10px}.upload-btn{background-color:var(--primary-red);color:#fff;padding:10px 20px;border:none;border-radius:5px;cursor:pointer;font-size:1rem;font-weight:500;display:inline-block}#file-list{margin-top:20px}.file-item{display:flex;justify-content:space-between;align-items:center;padding:10px;background-color:#f9f9f9;border:1px solid var(--border-color);border-radius:5px;margin-bottom:10px}.file-item-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:80%}.remove-file-btn{background:0 0;border:none;color:var(--primary-red);font-weight:700;cursor:pointer;font-size:1.2rem}#tool-options{margin-top:20px;padding-top:20px;border-top:1px solid var(--border-color)}.option-group{margin-bottom:15px}.option-group label{display:block;margin-bottom:5px;font-weight:500}.option-group input[type=text],.option-group input[type=number],.option-group select,.option-group textarea{width:100%;padding:8px;border-radius:4px;border:1px solid #ccc}#process-btn{width:100%;padding:15px;font-size:1.2rem;font-weight:700;background-color:var(--primary-red);color:#fff;border:none;border-radius:5px;cursor:pointer;transition:background-color .3s ease;margin-top:20px}#process-btn:hover{background-color:var(--primary-red-dark)}#process-btn:disabled{background-color:#ccc;cursor:not-allowed}#output-area{margin-top:20px;padding-top:20px;border-top:1px solid var(--border-color)}#output-area a{display:block;padding:10px;background-color:#28a745;color:#fff;text-align:center;text-decoration:none;border-radius:5px;margin-bottom:10px}#output-area a:hover{background-color:#218838}#edit-pdf-controls{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}#edit-pdf-controls button,#edit-pdf-controls select{padding:5px 10px}#editor-container{position:relative;width:100%;border:1px solid #ccc;min-height:400px}#editor-canvas-wrapper{border:1px solid #eee}#loader-overlay{display:none;position:fixed;z-index:3000;left:0;top:0;width:100%;height:100%;background-color:rgba(255,255,255,.8);justify-content:center;align-items:center;flex-direction:column}.spinner{border:8px solid #f3f3f3;border-top:8px solid var(--primary-red);border-radius:50%;width:60px;height:60px;animation:spin 1s linear infinite}#loader-text{margin-top:20px;font-size:1.1rem;font-weight:500;color:var(--secondary-dark)}.footer{background-color:var(--secondary-dark);color:#ccc;padding:40px 0 20px}.footer-bottom{text-align:center;padding-top:20px;border-top:1px solid #444;font-size:.9rem}@keyframes fadeIn{from{opacity:0}to{opacity:1}}@keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}@media (max-width:768px){.hero h1{font-size:2.5rem}.tools-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}.nav-links{position:fixed;left:-100%;top:0;flex-direction:column;background-color:var(--background-white);width:100%;height:100vh;text-align:center;transition:.3s;justify-content:center;padding-top:0}.nav-links.active{left:0}.nav-links li{margin:20px 0}.nav-links a{font-size:1.5rem}.hamburger{display:block}.hamburger.active .bar:nth-child(2){opacity:0}.hamburger.active .bar:nth-child(1){transform:translateY(8px) rotate(45deg)}.hamburger.active .bar:nth-child(3){transform:translateY(-8px) rotate(-45deg)}}
+        :root{--primary-red:#e5322d;--primary-red-dark:#c4241f;--secondary-dark:#333;--text-color:#555;--background-light:#f8f8fa;--background-white:#ffffff;--border-color:#e0e0e0;--container-width:1200px;--header-height:70px}*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--text-color);background-color:var(--background-light);line-height:1.6}.container{max-width:var(--container-width);margin:0 auto;padding:0 20px}.header{position:sticky;top:0;left:0;width:100%;background-color:var(--background-white);z-index:1000;transition:box-shadow .3s ease}.header.scrolled{box-shadow:0 2px 10px rgba(0,0,0,.1)}.navbar{display:flex;justify-content:space-between;align-items:center;height:var(--header-height)}.logo{font-size:1.8rem;font-weight:700;color:var(--primary-red);text-decoration:none}.nav-links{display:flex;list-style:none}.nav-links li{margin-left:30px}.nav-links a{text-decoration:none;color:var(--secondary-dark);font-weight:500;transition:color .3s ease}.nav-links a:hover{color:var(--primary-red)}.hamburger{display:none;cursor:pointer;z-index:1001}.hamburger .bar{display:block;width:25px;height:3px;margin:5px auto;background-color:var(--secondary-dark);transition:all .3s ease-in-out}.hero{text-align:center;padding:100px 20px;background:linear-gradient(180deg,var(--background-white) 0%,var(--background-light) 100%)}.hero h1{font-size:3.5rem;color:var(--secondary-dark);margin-bottom:20px}.hero p{font-size:1.2rem;max-width:600px;margin:0 auto}#tools-section{padding:60px 0}.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:25px}.tool-card{background:var(--background-white);border:1px solid var(--border-color);border-radius:8px;padding:25px;text-align:center;cursor:pointer;transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease;position:relative}.tool-card:hover{transform:translateY(-5px);box-shadow:0 10px 20px rgba(0,0,0,.08);border-color:var(--primary-red)}.tool-card .icon{font-size:3rem;color:var(--primary-red);margin-bottom:15px}.tool-card h3{font-size:1.2rem;color:var(--secondary-dark);margin-bottom:10px}.tool-card p{font-size:.9rem}.new-badge{position:absolute;top:10px;right:10px;background-color:var(--primary-red);color:#fff;padding:2px 8px;border-radius:10px;font-size:.7rem;font-weight:700}.modal{display:none;position:fixed;z-index:2000;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:rgba(0,0,0,.6);animation:fadeIn .3s ease}.modal-content{background-color:#fefefe;margin:5% auto;border-radius:8px;width:90%;max-width:800px;box-shadow:0 5px 15px rgba(0,0,0,.3);display:flex;flex-direction:column}.modal-header{padding:20px 25px;border-bottom:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center}.modal-header h2{color:var(--secondary-dark)}.close-button{color:#aaa;font-size:28px;font-weight:700;cursor:pointer}.close-button:hover,.close-button:focus{color:#000}.modal-body{padding:25px;max-height:60vh;overflow-y:auto}#drop-zone{border:2px dashed var(--border-color);border-radius:8px;padding:40px;text-align:center;cursor:pointer;transition:background-color .3s ease,border-color .3s ease;background-color:var(--background-light)}#drop-zone.dragover{background-color:#e9f5ff;border-color:var(--primary-red)}#drop-zone p{font-size:1.1rem;margin-bottom:10px}.upload-btn{background-color:var(--primary-red);color:#fff;padding:10px 20px;border:none;border-radius:5px;cursor:pointer;font-size:1rem;font-weight:500;display:inline-block}#file-list{margin-top:20px}.file-item{display:flex;justify-content:space-between;align-items:center;padding:10px;background-color:#f9f9f9;border:1px solid var(--border-color);border-radius:5px;margin-bottom:10px}.file-item-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:80%}.remove-file-btn{background:0 0;border:none;color:var(--primary-red);font-weight:700;cursor:pointer;font-size:1.2rem}#tool-options{margin-top:20px;padding-top:20px;border-top:1px solid var(--border-color)}.option-group{margin-bottom:15px}.option-group label{display:block;margin-bottom:5px;font-weight:500}.option-group input[type=text],.option-group input[type=password],.option-group input[type=number],.option-group select,.option-group textarea{width:100%;padding:8px;border-radius:4px;border:1px solid #ccc}#process-btn{width:100%;padding:15px;font-size:1.2rem;font-weight:700;background-color:var(--primary-red);color:#fff;border:none;border-radius:5px;cursor:pointer;transition:background-color .3s ease;margin-top:20px}#process-btn:hover{background-color:var(--primary-red-dark)}#process-btn:disabled{background-color:#ccc;cursor:not-allowed}#output-area{margin-top:20px;padding-top:20px;border-top:1px solid var(--border-color)}#output-area a{display:block;padding:10px;background-color:#28a745;color:#fff;text-align:center;text-decoration:none;border-radius:5px;margin-bottom:10px}#output-area a:hover{background-color:#218838}#edit-pdf-controls{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}#edit-pdf-controls button,#edit-pdf-controls select{padding:5px 10px}#editor-container{position:relative;width:100%;border:1px solid #ccc;min-height:400px}#editor-canvas-wrapper{border:1px solid #eee}#loader-overlay{display:none;position:fixed;z-index:3000;left:0;top:0;width:100%;height:100%;background-color:rgba(255,255,255,.8);justify-content:center;align-items:center;flex-direction:column}.spinner{border:8px solid #f3f3f3;border-top:8px solid var(--primary-red);border-radius:50%;width:60px;height:60px;animation:spin 1s linear infinite}#loader-text{margin-top:20px;font-size:1.1rem;font-weight:500;color:var(--secondary-dark)}.footer{background-color:var(--secondary-dark);color:#ccc;padding:40px 0 20px}.footer-bottom{text-align:center;padding-top:20px;border-top:1px solid #444;font-size:.9rem}@keyframes fadeIn{from{opacity:0}to{opacity:1}}@keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}@media (max-width:768px){.hero h1{font-size:2.5rem}.tools-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}.nav-links{position:fixed;left:-100%;top:0;flex-direction:column;background-color:var(--background-white);width:100%;height:100vh;text-align:center;transition:.3s;justify-content:center;padding-top:0}.nav-links.active{left:0}.nav-links li{margin:20px 0}.nav-links a{font-size:1.5rem}.hamburger{display:block}.hamburger.active .bar:nth-child(2){opacity:0}.hamburger.active .bar:nth-child(1){transform:translateY(8px) rotate(45deg)}.hamburger.active .bar:nth-child(3){transform:translateY(-8px) rotate(-45deg)}}
     </style>
 </head>
 <body>
@@ -88,30 +88,174 @@
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         // --- Library Configuration ---
-        const { PDFDocument, rgb, degrees, PDFName, PDFDict, PDFStream } = PDFLib;
+        const { PDFDocument, rgb, degrees, StandardFonts } = PDFLib;
         pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js`;
         
         // --- Global State ---
         let currentToolId = null;
         let selectedFiles = [];
-        let fabricCanvas = null;
-        let fabricStates = {};
-        let currentPdfDocProxy = null;
-        let currentPageNum = 1;
 
         // --- All Tool Definitions ---
         const toolImplementations = {
+            'add-page-numbers': {
+                title: 'Add Page Numbers',
+                desc: 'Insert page numbers into a PDF.',
+                icon: '#️⃣',
+                fileType: '.pdf',
+                multiple: false,
+                options: () => `
+                    <div class="option-group">
+                        <label for="page-num-position">Position:</label>
+                        <select id="page-num-position">
+                            <option value="bottom-center">Bottom Center</option>
+                            <option value="bottom-left">Bottom Left</option>
+                            <option value="bottom-right">Bottom Right</option>
+                            <option value="top-center">Top Center</option>
+                            <option value="top-left">Top Left</option>
+                            <option value="top-right">Top Right</option>
+                        </select>
+                    </div>
+                    <div class="option-group">
+                        <label for="page-num-format">Format ({page} and {total}):</label>
+                        <input type="text" id="page-num-format" value="Page {page} of {total}">
+                    </div>
+                `,
+                process: async (options) => {
+                    showLoader('Adding page numbers...');
+                    const pdfBytes = await selectedFiles[0].arrayBuffer();
+                    const pdfDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
+                    const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+                    const pages = pdfDoc.getPages();
+                    const totalPages = pages.length;
+
+                    for (let i = 0; i < totalPages; i++) {
+                        const page = pages[i];
+                        const { width, height } = page.getSize();
+                        const text = options['page-num-format']
+                            .replace('{page}', i + 1)
+                            .replace('{total}', totalPages);
+                        
+                        const textSize = 12;
+                        const textWidth = font.widthOfTextAtSize(text, textSize);
+                        const position = options['page-num-position'];
+                        let x, y;
+
+                        const margin = 30;
+                        if (position.includes('bottom')) { y = margin; }
+                        else { y = height - margin - textSize; }
+
+                        if (position.includes('left')) { x = margin; }
+                        else if (position.includes('right')) { x = width - textWidth - margin; }
+                        else { x = width / 2 - textWidth / 2; }
+
+                        page.drawText(text, { x, y, size: textSize, font, color: rgb(0, 0, 0) });
+                    }
+
+                    const newPdfBytes = await pdfDoc.save();
+                    createDownloadLink(newPdfBytes, 'numbered.pdf', 'application/pdf');
+                }
+            },
+            'compress-pdf': { 
+                title: 'Compress PDF', 
+                desc: 'Reduce the file size of your PDF.', 
+                icon: '🗜️', 
+                fileType: '.pdf', 
+                multiple: false, 
+                options: () => `<div class="option-group"><label for="quality-slider">Image Quality:</label><input type="range" id="quality-slider" min="0.1" max="1.0" step="0.1" value="0.7"><span id="quality-value">0.7</span></div>`, 
+                process: async (options) => { 
+                    const quality = parseFloat(options['quality-slider']); 
+                    showLoader('Compressing PDF...'); 
+                    const pdfBytes = await selectedFiles[0].arrayBuffer(); 
+                    const pdfToCompress = await pdfjsLib.getDocument({data: pdfBytes}).promise; 
+                    const numPages = pdfToCompress.numPages; 
+                    const newPdfDoc = await PDFDocument.create(); 
+                    for (let i = 1; i <= numPages; i++) { 
+                        showLoader(`Processing page ${i}/${numPages}...`); 
+                        const page = await pdfToCompress.getPage(i); 
+                        const viewport = page.getViewport({ scale: 1.0 }); 
+                        const canvas = document.createElement('canvas'); 
+                        const context = canvas.getContext('2d'); 
+                        canvas.height = viewport.height; 
+                        canvas.width = viewport.width; 
+                        await page.render({ canvasContext: context, viewport: viewport }).promise; 
+                        const imageDataUrl = canvas.toDataURL('image/jpeg', quality); 
+                        const imageBytes = await fetch(imageDataUrl).then(res => res.arrayBuffer()); 
+                        const image = await newPdfDoc.embedJpg(imageBytes); 
+                        const newPage = newPdfDoc.addPage([canvas.width, canvas.height]); 
+                        newPage.drawImage(image, { x: 0, y: 0, width: canvas.width, height: canvas.height }); 
+                    } 
+                    const compressedPdfBytes = await newPdfDoc.save(); 
+                    createDownloadLink(compressedPdfBytes, 'compressed.pdf', 'application/pdf'); 
+                } 
+            },
+            'excel-to-pdf': {
+                title: 'Excel to PDF',
+                desc: 'Convert XLSX spreadsheets to PDF.',
+                icon: '📊➡️📑',
+                fileType: '.xlsx',
+                multiple: false,
+                process: async () => {
+                    showLoader('Converting Excel to PDF...');
+                    const file = selectedFiles[0];
+                    const arrayBuffer = await file.arrayBuffer();
+                    
+                    const workbook = XLSX.read(arrayBuffer, { type: 'buffer' });
+                    const firstSheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[firstSheetName];
+                    const html = XLSX.utils.sheet_to_html(worksheet);
+                    
+                    const element = document.createElement('div');
+                    element.innerHTML = html;
+
+                    const style = document.createElement('style');
+                    style.innerHTML = `
+                        table { border-collapse: collapse; width: 100%; font-family: Arial, sans-serif; font-size: 10px; }
+                        th, td { border: 1px solid #dddddd; text-align: left; padding: 4px; }
+                        th { background-color: #f2f2f2; font-weight: bold; }
+                        tr:nth-child(even) { background-color: #f9f9f9; }
+                    `;
+                    element.prepend(style);
+                    
+                    const pdfBlob = await html2pdf().from(element).set({
+                        margin: 10,
+                        filename: 'converted_from_excel.pdf',
+                        image: { type: 'jpeg', quality: 0.98 },
+                        html2canvas: { scale: 2 },
+                        jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+                    }).output('blob');
+                    
+                    createDownloadLink(pdfBlob, 'converted_from_excel.pdf', 'application/pdf');
+                }
+            },
+            'jpg-to-pdf': { 
+                title: 'JPG to PDF', 
+                desc: 'Convert JPG images to a PDF.', 
+                icon: '🖼️➡️📄', 
+                fileType: '.jpg,.jpeg', 
+                multiple: true, 
+                process: async () => { 
+                    showLoader('Converting images to PDF...'); 
+                    const pdfDoc = await PDFDocument.create(); 
+                    for (const file of selectedFiles) { 
+                        const imageBytes = await file.arrayBuffer(); 
+                        let image = await pdfDoc.embedJpg(imageBytes); 
+                        const page = pdfDoc.addPage([image.width, image.height]); 
+                        page.drawImage(image, { x: 0, y: 0, width: image.width, height: image.height }); 
+                    } 
+                    const pdfBytes = await pdfDoc.save(); 
+                    createDownloadLink(pdfBytes, 'converted.pdf', 'application/pdf'); 
+                } 
+            },
             'merge-pdf': { 
                 title: 'Merge PDF', 
                 desc: 'Combine multiple PDFs into one.', 
                 icon: '📚', 
-                fileType: 'application/pdf', 
+                fileType: '.pdf', 
                 multiple: true, 
                 process: async () => { 
                     showLoader('Merging PDFs...'); 
                     try {
                         const mergedPdf = await PDFDocument.create(); 
-                        
                         for (let i = 0; i < selectedFiles.length; i++) {
                             showLoader(`Processing PDF ${i + 1} of ${selectedFiles.length}...`);
                             const file = selectedFiles[i];
@@ -120,7 +264,6 @@
                             const copiedPages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices()); 
                             copiedPages.forEach(page => mergedPdf.addPage(page)); 
                         }
-                        
                         showLoader('Finalizing merged PDF...');
                         const mergedPdfBytes = await mergedPdf.save(); 
                         createDownloadLink(mergedPdfBytes, 'merged.pdf', 'application/pdf'); 
@@ -130,11 +273,226 @@
                     }
                 } 
             },
-            'split-pdf': { title: 'Split PDF', desc: 'Extract pages from a PDF.', icon: '✂️', fileType: 'application/pdf', multiple: false, options: () => `<div class="option-group"><label for="page-range">Page ranges (e.g., 1-3, 5):</label><input type="text" id="page-range" placeholder="e.g., 1-3, 5, 8-10"></div>`, process: async (options) => { showLoader('Splitting PDF...'); const range = options['page-range']; if (!range) throw new Error('Page range is required.'); const pdfBytes = await selectedFiles[0].arrayBuffer(); const pdfDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true }); const pageIndices = []; const totalPages = pdfDoc.getPageCount(); const parts = range.split(','); for (const part of parts) { if (part.includes('-')) { const [start, end] = part.split('-').map(Number); for (let i = start; i <= end; i++) { if (i > 0 && i <= totalPages) pageIndices.push(i - 1); } } else { const pageNum = Number(part); if (pageNum > 0 && pageNum <= totalPages) pageIndices.push(pageNum - 1); } } const uniqueIndices = [...new Set(pageIndices)]; if (uniqueIndices.length === 0) throw new Error('Invalid page range.'); const newPdf = await PDFDocument.create(); const copiedPages = await newPdf.copyPages(pdfDoc, uniqueIndices); copiedPages.forEach(page => newPdf.addPage(page)); const newPdfBytes = await newPdf.save(); createDownloadLink(newPdfBytes, 'split.pdf', 'application/pdf'); } },
-            'compress-pdf': { title: 'Compress PDF', desc: 'Reduce the file size of your PDF.', icon: '🗜️', fileType: 'application/pdf', multiple: false, options: () => `<div class="option-group"><label for="quality-slider">Image Quality:</label><input type="range" id="quality-slider" min="0.1" max="1.0" step="0.1" value="0.7"><span id="quality-value">0.7</span></div>`, process: async (options) => { const quality = parseFloat(options['quality-slider']); showLoader('Compressing PDF...'); const pdfBytes = await selectedFiles[0].arrayBuffer(); const pdfToCompress = await pdfjsLib.getDocument({data: pdfBytes}).promise; const numPages = pdfToCompress.numPages; const newPdfDoc = await PDFDocument.create(); for (let i = 1; i <= numPages; i++) { showLoader(`Processing page ${i}/${numPages}...`); const page = await pdfToCompress.getPage(i); const viewport = page.getViewport({ scale: 1.0 }); const canvas = document.createElement('canvas'); const context = canvas.getContext('2d'); canvas.height = viewport.height; canvas.width = viewport.width; await page.render({ canvasContext: context, viewport: viewport }).promise; const imageDataUrl = canvas.toDataURL('image/jpeg', quality); const imageBytes = await fetch(imageDataUrl).then(res => res.arrayBuffer()); const image = await newPdfDoc.embedJpg(imageBytes); const newPage = newPdfDoc.addPage([canvas.width, canvas.height]); newPage.drawImage(image, { x: 0, y: 0, width: canvas.width, height: canvas.height }); } const compressedPdfBytes = await newPdfDoc.save(); createDownloadLink(compressedPdfBytes, 'compressed.pdf', 'application/pdf'); } },
-            'pdf-to-jpg': { title: 'PDF to JPG', desc: 'Convert PDF pages to JPG images.', icon: '📄➡️🖼️', fileType: 'application/pdf', multiple: false, process: async () => { showLoader('Converting to JPG...'); const pdfBytes = await selectedFiles[0].arrayBuffer(); const pdf = await pdfjsLib.getDocument({data: pdfBytes}).promise; const zip = new JSZip(); for (let i = 1; i <= pdf.numPages; i++) { showLoader(`Converting page ${i}/${pdf.numPages}...`); const page = await pdf.getPage(i); const viewport = page.getViewport({ scale: 2.0 }); const canvas = document.createElement('canvas'); canvas.height = viewport.height; canvas.width = viewport.width; const context = canvas.getContext('2d'); await page.render({ canvasContext: context, viewport }).promise; const imageDataUrl = canvas.toDataURL('image/jpeg'); zip.file(`page_${i}.jpg`, imageDataUrl.split(',')[1], { base64: true }); } const zipBlob = await zip.generateAsync({type:"blob"}); createDownloadLink(zipBlob, 'converted_jpgs.zip', 'application/zip'); } },
-            'jpg-to-pdf': { title: 'JPG to PDF', desc: 'Convert JPG images to a PDF.', icon: '🖼️➡️📄', fileType: 'image/jpeg', multiple: true, process: async () => { showLoader('Converting images to PDF...'); const pdfDoc = await PDFDocument.create(); for (const file of selectedFiles) { const imageBytes = await file.arrayBuffer(); let image = await pdfDoc.embedJpg(imageBytes); const page = pdfDoc.addPage([image.width, image.height]); page.drawImage(image, { x: 0, y: 0, width: image.width, height: image.height }); } const pdfBytes = await pdfDoc.save(); createDownloadLink(pdfBytes, 'converted.pdf', 'application/pdf'); } },
-            'png-to-pdf': { title: 'PNG to PDF', desc: 'Convert PNG images to a PDF.', icon: '🖼️➡️📄', fileType: 'image/png', multiple: true, process: async () => { showLoader('Converting images to PDF...'); const pdfDoc = await PDFDocument.create(); for (const file of selectedFiles) { const imageBytes = await file.arrayBuffer(); let image = await pdfDoc.embedPng(imageBytes); const page = pdfDoc.addPage([image.width, image.height]); page.drawImage(image, { x: 0, y: 0, width: image.width, height: image.height }); } const pdfBytes = await pdfDoc.save(); createDownloadLink(pdfBytes, 'converted.pdf', 'application/pdf'); } },
+            'pdf-to-jpg': { 
+                title: 'PDF to JPG', 
+                desc: 'Convert PDF pages to JPG images.', 
+                icon: '📄➡️🖼️', 
+                fileType: '.pdf', 
+                multiple: false, 
+                process: async () => { 
+                    showLoader('Converting to JPG...'); 
+                    const pdfBytes = await selectedFiles[0].arrayBuffer(); 
+                    const pdf = await pdfjsLib.getDocument({data: pdfBytes}).promise; 
+                    const zip = new JSZip(); 
+                    for (let i = 1; i <= pdf.numPages; i++) { 
+                        showLoader(`Converting page ${i}/${pdf.numPages}...`); 
+                        const page = await pdf.getPage(i); 
+                        const viewport = page.getViewport({ scale: 2.0 }); 
+                        const canvas = document.createElement('canvas'); 
+                        canvas.height = viewport.height; 
+                        canvas.width = viewport.width; 
+                        const context = canvas.getContext('2d'); 
+                        await page.render({ canvasContext: context, viewport }).promise; 
+                        const imageDataUrl = canvas.toDataURL('image/jpeg'); 
+                        zip.file(`page_${i}.jpg`, imageDataUrl.split(',')[1], { base64: true }); 
+                    } 
+                    const zipBlob = await zip.generateAsync({type:"blob"}); 
+                    createDownloadLink(zipBlob, 'converted_jpgs.zip', 'application/zip'); 
+                } 
+            },
+            'png-to-pdf': { 
+                title: 'PNG to PDF', 
+                desc: 'Convert PNG images to a PDF.', 
+                icon: '🖼️➡️📄', 
+                fileType: '.png', 
+                multiple: true, 
+                process: async () => { 
+                    showLoader('Converting images to PDF...'); 
+                    const pdfDoc = await PDFDocument.create(); 
+                    for (const file of selectedFiles) { 
+                        const imageBytes = await file.arrayBuffer(); 
+                        let image = await pdfDoc.embedPng(imageBytes); 
+                        const page = pdfDoc.addPage([image.width, image.height]); 
+                        page.drawImage(image, { x: 0, y: 0, width: image.width, height: image.height }); 
+                    } 
+                    const pdfBytes = await pdfDoc.save(); 
+                    createDownloadLink(pdfBytes, 'converted.pdf', 'application/pdf'); 
+                } 
+            },
+            'protect-pdf': {
+                title: 'Protect PDF',
+                desc: 'Encrypt and add a password to a PDF.',
+                icon: '🔒',
+                fileType: '.pdf',
+                multiple: false,
+                options: () => `
+                    <div class="option-group">
+                        <label for="user-password">Password to open (User Password):</label>
+                        <input type="password" id="user-password" placeholder="Leave blank if not needed">
+                    </div>
+                    <div class="option-group">
+                        <label for="owner-password">Password for permissions (Owner):</label>
+                        <input type="password" id="owner-password" placeholder="Required to set protection">
+                    </div>
+                `,
+                process: async (options) => {
+                    showLoader('Protecting PDF...');
+                    const userPassword = options['user-password'];
+                    const ownerPassword = options['owner-password'];
+
+                    if (!ownerPassword) {
+                        throw new Error('An Owner password is required to set any password protection.');
+                    }
+
+                    const pdfBytes = await selectedFiles[0].arrayBuffer();
+                    const pdfDoc = await PDFDocument.load(pdfBytes);
+
+                    const newPdfBytes = await pdfDoc.save({ userPassword, ownerPassword });
+                    createDownloadLink(newPdfBytes, 'protected.pdf', 'application/pdf');
+                }
+            },
+            'rotate-pdf': {
+                title: 'Rotate PDF',
+                desc: 'Rotate pages in your PDF document.',
+                icon: '🔄',
+                fileType: '.pdf',
+                multiple: false,
+                options: () => `
+                    <div class="option-group">
+                        <label for="rotation-angle">Angle:</label>
+                        <select id="rotation-angle">
+                            <option value="90">90° clockwise</option>
+                            <option value="180">180°</option>
+                            <option value="270">270° clockwise (90° counter-clockwise)</option>
+                        </select>
+                    </div>
+                `,
+                process: async (options) => {
+                    showLoader('Rotating PDF...');
+                    const angle = parseInt(options['rotation-angle'], 10);
+                    const pdfBytes = await selectedFiles[0].arrayBuffer();
+                    const pdfDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
+                    
+                    pdfDoc.getPages().forEach(page => {
+                        const currentRotation = page.getRotation().angle;
+                        page.setRotation(degrees((currentRotation + angle) % 360));
+                    });
+
+                    const newPdfBytes = await pdfDoc.save();
+                    createDownloadLink(newPdfBytes, 'rotated.pdf', 'application/pdf');
+                }
+            },
+            'split-pdf': { 
+                title: 'Split PDF', 
+                desc: 'Extract pages from a PDF.', 
+                icon: '✂️', 
+                fileType: '.pdf', 
+                multiple: false, 
+                options: () => `<div class="option-group"><label for="page-range">Page ranges (e.g., 1-3, 5):</label><input type="text" id="page-range" placeholder="e.g., 1-3, 5, 8-10"></div>`, 
+                process: async (options) => { 
+                    showLoader('Splitting PDF...'); 
+                    const range = options['page-range']; 
+                    if (!range) throw new Error('Page range is required.'); 
+                    const pdfBytes = await selectedFiles[0].arrayBuffer(); 
+                    const pdfDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true }); 
+                    const pageIndices = []; 
+                    const totalPages = pdfDoc.getPageCount(); 
+                    const parts = range.split(','); 
+                    for (const part of parts) { 
+                        if (part.includes('-')) { 
+                            const [start, end] = part.split('-').map(Number); 
+                            for (let i = start; i <= end; i++) { 
+                                if (i > 0 && i <= totalPages) pageIndices.push(i - 1); 
+                            } 
+                        } else { 
+                            const pageNum = Number(part); 
+                            if (pageNum > 0 && pageNum <= totalPages) pageIndices.push(pageNum - 1); 
+                        } 
+                    } 
+                    const uniqueIndices = [...new Set(pageIndices)]; 
+                    if (uniqueIndices.length === 0) throw new Error('Invalid page range.'); 
+                    const newPdf = await PDFDocument.create(); 
+                    const copiedPages = await newPdf.copyPages(pdfDoc, uniqueIndices); 
+                    copiedPages.forEach(page => newPdf.addPage(page)); 
+                    const newPdfBytes = await newPdf.save(); 
+                    createDownloadLink(newPdfBytes, 'split.pdf', 'application/pdf'); 
+                } 
+            },
+            'watermark-pdf': {
+                title: 'Watermark PDF',
+                desc: 'Add a text watermark to your PDF.',
+                icon: '💧',
+                fileType: '.pdf',
+                multiple: false,
+                options: () => `
+                    <div class="option-group">
+                        <label for="watermark-text">Watermark Text:</label>
+                        <input type="text" id="watermark-text" value="CONFIDENTIAL">
+                    </div>
+                    <div class="option-group">
+                        <label for="watermark-size">Font Size:</label>
+                        <input type="number" id="watermark-size" value="72">
+                    </div>
+                    <div class="option-group">
+                        <label for="watermark-opacity">Opacity:</label>
+                        <input type="range" id="watermark-opacity" min="0" max="1" step="0.1" value="0.3">
+                        <span id="opacity-value">0.3</span>
+                    </div>
+                `,
+                process: async (options) => {
+                    showLoader('Adding watermark...');
+                    const text = options['watermark-text'];
+                    const fontSize = parseInt(options['watermark-size'], 10);
+                    const opacity = parseFloat(options['watermark-opacity']);
+
+                    const pdfBytes = await selectedFiles[0].arrayBuffer();
+                    const pdfDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
+                    const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+
+                    pdfDoc.getPages().forEach(page => {
+                        const { width, height } = page.getSize();
+                        const textWidth = font.widthOfTextAtSize(text, fontSize);
+                        const textHeight = font.heightAtSize(fontSize);
+                        page.drawText(text, {
+                            x: width / 2 - textWidth / 2,
+                            y: height / 2 - textHeight / 2,
+                            font,
+                            size: fontSize,
+                            color: rgb(0.5, 0.5, 0.5),
+                            opacity: opacity,
+                            rotate: degrees(45),
+                        });
+                    });
+                    const newPdfBytes = await pdfDoc.save();
+                    createDownloadLink(newPdfBytes, 'watermarked.pdf', 'application/pdf');
+                }
+            },
+            'word-to-pdf': {
+                title: 'Word to PDF',
+                desc: 'Convert DOCX files to a PDF.',
+                icon: '📄➡️📑',
+                fileType: '.docx',
+                multiple: false,
+                process: async () => {
+                    showLoader('Converting Word to PDF...');
+                    const file = selectedFiles[0];
+                    const arrayBuffer = await file.arrayBuffer();
+                    
+                    const result = await mammoth.convertToHtml({ arrayBuffer });
+                    const html = result.value;
+                    
+                    const element = document.createElement('div');
+                    element.innerHTML = html;
+                    
+                    const pdfBlob = await html2pdf().from(element).set({
+                        margin: [15, 15, 15, 15],
+                        filename: 'converted_from_word.pdf',
+                        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                    }).output('blob');
+
+                    createDownloadLink(pdfBlob, 'converted_from_word.pdf', 'application/pdf');
+                }
+            },
         };
         
         // --- UI Initialization & Event Handlers ---
@@ -146,7 +504,7 @@
         navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => { hamburger.classList.remove('active'); navLinks.classList.remove('active'); }));
         
         const toolsGrid = document.getElementById('tools-grid');
-        Object.keys(toolImplementations).forEach(toolId => {
+        Object.keys(toolImplementations).sort().forEach(toolId => {
             const tool = toolImplementations[toolId];
             const card = document.createElement('div');
             card.className = 'tool-card';
@@ -187,48 +545,21 @@
         });
 
         function openModal(toolId) {
-            // Corrected: Reset the modal to a clean state first
             resetModal();
-
-            // Corrected: Then, set the new tool's context
             currentToolId = toolId;
             const tool = toolImplementations[toolId];
             
             document.getElementById('modal-title').textContent = tool.title;
-            
-            // Set file input accept attribute properly
-            if (tool.fileType) {
-                if (tool.fileType === 'application/pdf') {
-                    fileInput.accept = '.pdf';
-                } else if (tool.fileType === 'image/jpeg') {
-                    fileInput.accept = '.jpg,.jpeg';
-                } else if (tool.fileType === 'image/png') {
-                    fileInput.accept = '.png';
-                } else {
-                    fileInput.accept = tool.fileType;
-                }
-            } else {
-                fileInput.accept = '';
-            }
-            
-            // Set multiple attribute
+            fileInput.accept = tool.fileType || '';
             fileInput.multiple = tool.multiple || false;
             
             const toolOptionsContainer = document.getElementById('tool-options');
             if (tool.options) {
                 toolOptionsContainer.innerHTML = tool.options();
-                
-                // Setup slider handlers
-                if (document.getElementById('quality-slider')) { 
-                    const slider = document.getElementById('quality-slider'); 
-                    const valueSpan = document.getElementById('quality-value'); 
-                    slider.oninput = () => valueSpan.textContent = slider.value; 
-                }
-                if (document.getElementById('opacity-slider')) { 
-                    const slider = document.getElementById('opacity-slider'); 
-                    const valueSpan = document.getElementById('opacity-value'); 
-                    slider.oninput = () => valueSpan.textContent = slider.value; 
-                }
+                toolOptionsContainer.querySelectorAll('input[type=range]').forEach(slider => {
+                    const valueSpan = document.getElementById(`${slider.id.replace('-slider', '')}-value`);
+                    if(valueSpan) slider.oninput = () => valueSpan.textContent = slider.value;
+                });
             }
             modal.style.display = 'block';
         }
@@ -245,16 +576,7 @@
             document.getElementById('output-area').innerHTML = '';
             document.getElementById('process-btn').disabled = true;
             fileInput.value = ''; 
-            fileInput.accept = ""; 
-            fileInput.multiple = false;
-            // Corrected: The line that caused the bug has been removed.
-            // currentToolId = null;
-            if (fabricCanvas) { 
-                fabricCanvas.dispose(); 
-                fabricCanvas = null; 
-            }
-            currentPdfDocProxy = null; 
-            fabricStates = {};
+            currentToolId = null;
         }
 
         function handleFiles(files) {
@@ -263,21 +585,15 @@
             
             const newFiles = Array.from(files);
             
-            // File type validation
             if (tool.fileType) {
+                const allowedExtensions = tool.fileType.split(',').map(ext => ext.trim().toLowerCase());
                 const validFiles = newFiles.filter(file => {
-                    if (tool.fileType === 'application/pdf') {
-                        return file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
-                    } else if (tool.fileType === 'image/jpeg') {
-                        return file.type === 'image/jpeg' || file.name.toLowerCase().match(/\.(jpg|jpeg)$/);
-                    } else if (tool.fileType === 'image/png') {
-                        return file.type === 'image/png' || file.name.toLowerCase().endsWith('.png');
-                    }
-                    return true;
+                    const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+                    return allowedExtensions.includes(fileExtension);
                 });
                 
                 if (validFiles.length !== newFiles.length) { 
-                    showError(`Please select only ${tool.fileType.split('/')[1].toUpperCase()} files`); 
+                    showError(`Please select only ${tool.fileType} files`); 
                     return; 
                 }
                 
